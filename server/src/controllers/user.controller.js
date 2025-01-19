@@ -1,5 +1,7 @@
 import { HTTPCustomError, httpErrorHandler } from "../config/error.js";
+import { generateHoroscope, generateKundali } from "../config/kundali.js";
 import User from "../models/user.model.js";
+// import AstronomyEngine from "astronomy-engine";
 
 export async function userRegisterController(req, res) {
   try {
@@ -119,6 +121,33 @@ export async function userProfileController(req, res) {
       data: req.user
     })
   } catch (error) {
+    return httpErrorHandler(error, res);
+  }
+}
+
+export async function userGetKundaliController(req, res) {
+  try {
+    const dateOfBirth = "2003/05/20"; // YYYY-MM-DD
+    const timeOfBirth = "07:30"; // HH:MM (24-hour format)
+    const latitude = 19.5761; // Latitude of Pune, India
+    const longitude = 74.2070;
+
+    // const { dateOfBirth, timeOfBirth, latitude, longitude } = req.body;
+
+    try {
+      const kundali = await generateKundali({ dateOfBirth, timeOfBirth, latitude, longitude });
+      console.log(kundali)
+      const horoscope = generateHoroscope(kundali.planetsInHouses);
+      console.log(horoscope)
+      return res.status(200).json({
+        kundali
+        // horoscope: horoscope
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    console.error(error)
     return httpErrorHandler(error, res);
   }
 }

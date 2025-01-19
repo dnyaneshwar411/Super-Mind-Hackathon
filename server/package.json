@@ -2,7 +2,6 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,6 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "astronomy-engine": "^2.1.19",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
